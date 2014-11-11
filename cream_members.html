@@ -1,0 +1,22 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>cream_members.html</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script type="text/javascript">
+     $(function(){
+        $("#Members").click(function(){
+            $.post("cream_json.php", {
+            }, function(json){
+                $('#result').html("<p>"+json[1]+": "+json.Guitar+"</p>" + "<p>"+json[2]+": "+json.Base+"</p>" + "<p>"+json[3]+": "+json.Drums+"</p>")
+            });
+        });
+    });
+    </script>
+</head>
+<body>
+<h1>Cream's members</h1>
+    <input id="Members" type="button" value="are" />
+    <div id="result"></div>
+</body>
+</html>

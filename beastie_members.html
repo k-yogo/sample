@@ -1,0 +1,57 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>beastie_members.html</title>
+</head>
+<body>
+<h1>You can be Beastie Boys </h1>
+    <p>Part: <input id="part" type="text" value="" size="10" /> Name: <input id="name" type="text" value="" size="15" /> <input id="add" type="button" value="Add" /></p>
+    <div id="all"></div>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script type="text/javascript">
+    $(function(){
+        $.post("beastie_json.php", {
+            }, function(json){
+                var cord = "";
+                for (var i = 0; i < json.length; i++) {
+                    cord += "<p>"+json[i].part+": "+json[i].name;
+                    if (i > 4) {cord += " <a href='' class='delete' id='"+ i +"' onclick='return false;'>Delete</a></p>";}
+                    else {cord += " </p>";};
+                };
+                $('#all').html(cord);
+        });
+        $('#add').click(function(){
+            $.post("beastie_json.php", {
+                part: $('#part').val(),
+                name: $('#name').val()
+            }, function(json){
+                var cord = "";
+                for (var i = 0; i < json.length; i++) {
+                    cord += "<p>"+json[i].part+": "+json[i].name;
+                    if (i > 4) {cord += " <a href='' class='delete' id='"+ i +"' onclick='return false;'>Delete</a></p>";}
+                    else {cord += " </p>";};
+                };
+                $('#all').html(cord);
+            });
+        });
+        $(document).on("click", ".delete", function(){
+            var delete_id = ($(this).attr("id"));
+            if(window.confirm("Are you sure to delete it?")){
+                $.post("beastie_json.php", {
+                    delete: delete_id,
+                }, function(json){
+                    var cord = "";
+                    for (var i = 0; i < json.length; i++) {
+                        cord += "<p>"+json[i].part+": "+json[i].name;
+                        if (i > 4) {cord += " <a href='' class='delete' id='"+ i +"' onclick='return false;'>Delete</a></p>";}
+                        else {cord += " </p>";};
+                    };
+                    $('#all').html(cord);
+                });
+            }
+        });
+    });
+    </script>
+</body>
+</html>
+                

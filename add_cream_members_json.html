@@ -1,0 +1,62 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>add_cream_members_json.html</title>
+</head>
+<body>
+<h1>You can add Cream members</h1>
+    <input id="guitar" type="button" value="Guitar" />
+    <input id="bass" type="button" value="Bass" />
+    <input id="drums" type="button" value="Drums" />
+    <div id="one"></div>
+    <div id="two"></div>
+    <div id="three"></div>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script type="text/javascript">
+       $(function(){
+            $("#guitar").click(function(){
+                $.post("cream_json2.php", {
+                }, function(json){
+                    if ($("#one").html() == "") {
+                        $("#one").html(json[0].part + ": " + json[0].name);
+                    }
+                    else if ($("#two").html() == "" && ($("#one").html() != json[0].part + ": " + json[0].name)) {
+                        $("#two").html(json[0].part + ": " + json[0].name);
+                    }
+                    else if ($("#three").html() == "" && ($("#one").html() != json[0].part + ": " + json[0].name) && ($("#two").html() != json[0].part + ": " + json[0].name)) {
+                        $("#three").html(json[0].part + ": " + json[0].name);
+                    }
+                });
+            });
+            $("#bass").click(function(){
+                $.post("cream_json2.php", {
+                }, function(json){
+                    if ($("#one").html() == "") {
+                        $("#one").html(json[1].part + ": " + json[1].name);
+                    }
+                    else if ($("#two").html() == "" && ($("#one").html() != json[1].part + ": " + json[1].name)) {
+                        $("#two").html(json[1].part + ": " + json[1].name);
+                    }
+                    else if ($("#three").html() == "" && ($("#one").html() != json[1].part + ": " + json[1].name) && ($("#two").html() != json[1].part + ": " + json[1].name)) {
+                        $("#three").html(json[1].part + ": " + json[1].name);
+                    }
+                });
+            });
+            $("#drums").click(function(){
+                $.post("cream_json2.php", {
+                }, function(json){
+                    if ($("#one").html() == "") {
+                        $("#one").html(json[2].part + ": " + json[2].name);
+                    }
+                    else if ($("#two").html() == "" && ($("#one").html() != json[2].part + ": " + json[2].name)) {
+                        $("#two").html(json[2].part + ": " + json[2].name);
+                    }
+                    else if ($("#three").html() == "" && ($("#one").html() != json[2].part + ": " + json[2].name) && ($("#two").html() != json[2].part + ": " + json[2].name)) {
+                        $("#three").html(json[2].part + ": " + json[2].name);
+                    }
+                });
+            });
+       });
+    </script>
+</body>
+</html>
