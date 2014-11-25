@@ -1,5 +1,5 @@
 <?php
-    $pdo = new PDO('mysql:dbname=test; host=localhost; charset=utf8', 'root');
+    $pdo = new PDO('mysql:dbname=test; host=localhost; charset=utf8', 'root', 'root');
     $st = $pdo->query("SELECT * FROM cream");
     $i = 0;
     $rs = array();

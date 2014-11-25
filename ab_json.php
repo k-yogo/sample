@@ -1,5 +1,5 @@
 <?php
-	$pdo = new PDO('mysql:dbname=test; host=localhost; charset=utf8', 'root');
+	$pdo = new PDO('mysql:dbname=test; host=localhost; charset=utf8', 'root', 'root');
 	if (!empty($_POST['turn'])) {
 		if ($_POST['turn'] == 'A') {
 			$st = $pdo->query("UPDATE ab SET turn ='B' WHERE id=1");
