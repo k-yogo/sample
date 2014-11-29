@@ -32,7 +32,9 @@
 				$pdo->query("UPDATE othello SET turn = 1 WHERE id=1");
 			}elseif ($turn == 2 && checkNext(1) == 2 && checkNext(2) == 2) {
 				$pdo->query("UPDATE othello SET turn = 2 WHERE id=1");
-			}elseif (checkNext(1) == 2 && checkNext(2) == 1) {
+			}elseif ($turn == 1 && checkNext(2) == 1 && checkNext(1) == 2) {
+				$pdo->query("UPDATE othello SET turn = 3 WHERE id=1");
+			}elseif ($turn == 2 && checkNext(1) == 2 && checkNext(2) == 1) {
 				$pdo->query("UPDATE othello SET turn = 3 WHERE id=1");
 			}
 		}
@@ -47,45 +49,101 @@
 	function getEightLine($l){
 		global $othello, $eightLine;
 		// 上方向のチェック
-		for ($i = $l, $n = 0; $i >= 1; $i -= 8, $n++) { 
+		for ($i = $l, $n = 0; $i >= 1; $i -= 8, $n++) {
 			$eightLine[0][$n] = $othello[$i]['disc'];
 		}
-		// 右上方向のチェック
-		for ($i = $l, $n = 0; $i >= 1; $i -= 7, $n++) { 
-			$eightLine[1][$n] = $othello[$i]['disc'];
+//		echo "上: ";
+//		foreach ($eightLine[0] as $key => $value) {
+//			echo $key.": ".$value."/";
+//		}
+//		echo "<br>";
+// 右上方向のチェック
+		for ($i = $l, $n = 0; $i >= 1; $i -= 7, $n++) {
+			if (($i - 1) % 8 == 0 && $i != $l) {
+				break;
+			}else{
+				$eightLine[1][$n] = $othello[$i]['disc'];
+			}
 		}
-		// 右方向のチェック
-		for ($i = $l, $x = $l%8, $n = 0; $i <= 64; $i++, $n++) { 
+//		echo "右上: ";
+//		foreach ($eightLine[1] as $key => $value) {
+//			echo $key.": ".$value."/";
+//		}
+//		echo "<br>";
+// 右方向のチェック
+		for ($i = $l, $n = 0;$n <= 7 - (($l -1) % 8); $i++, $n++) {
 			$eightLine[2][$n] = $othello[$i]['disc'];
 		}
-		// 右下方向のチェック
-		for ($i = $l, $n = 0; $i <= 64; $i += 9, $n++) { 
-			$eightLine[3][$n] = $othello[$i]['disc'];
+//		echo "右: ";
+//		foreach ($eightLine[2] as $key => $value) {
+//			echo $key.": ".$value."/";
+//		}
+//		echo "<br>";
+// 右下方向のチェック
+		for ($i = $l, $n = 0; $i <= 64; $i += 9, $n++) {
+			if (($i - 1) % 8 == 0 && $i != $l) {
+				break;
+			}else{
+				$eightLine[3][$n] = $othello[$i]['disc'];
+			}
 		}
-		// 下方向のチェック
-		for ($i = $l, $n = 0; $i <= 64; $i += 8, $n++) { 
+//		echo "右下: ";
+//		foreach ($eightLine[3] as $key => $value) {
+//			echo $key.": ".$value."/";
+//		}
+//		echo "<br>";
+// 下方向のチェック
+		for ($i = $l, $n = 0; $i <= 64; $i += 8, $n++) {
 			$eightLine[4][$n] = $othello[$i]['disc'];
 		}
-		// 左下方向のチェック
-		for ($i = $l, $n = 0; $i <= 64; $i += 7, $n++) { 
-			$eightLine[5][$n] = $othello[$i]['disc'];
+//		echo "下: ";
+//		foreach ($eightLine[4] as $key => $value) {
+//			echo $key.": ".$value."/";
+//		}
+//		echo "<br>";
+// 左下方向のチェック
+		for ($i = $l, $n = 0; $i <= 64; $i += 7, $n++) {
+			if ($i % 8 == 0 && $i != $l) {
+				break;
+			}else{
+				$eightLine[5][$n] = $othello[$i]['disc'];
+			}
 		}
-		// 左方向のチェック
-		for ($i = $l, $x = $l%8, $n = 0; $i >= 1; $i--, $x--, $n++) { 
+//		echo "左下: ";
+//		foreach ($eightLine[5] as $key => $value) {
+//			echo $key.": ".$value."/";
+//		}
+//		echo "<br>";
+// 左方向のチェック
+		for ($i = $l, $n = 0; $n <= (($l - 1) % 8); $i--, $n++) {
 			$eightLine[6][$n] = $othello[$i]['disc'];
 		}
-		// 左上方向のチェック
-		for ($i = $l, $n = 0; $i >= 1; $i -= 9, $n++) { 
-			$eightLine[7][$n] = $othello[$i]['disc'];
+//		echo "左: ";
+//		foreach ($eightLine[6] as $key => $value) {
+//			echo $key.": ".$value."/";
+//		}
+//		echo "<br>";
+// 左上方向のチェック
+		for ($i = $l, $n = 0; $i >= 1; $i -= 9, $n++) {
+			if ($i % 8 == 0 && $i != $l) {
+				break;
+			}else{
+				$eightLine[7][$n] = $othello[$i]['disc'];	
+			}
 		}
+//		echo "左上: ";
+//		foreach ($eightLine[7] as $key => $value) {
+//			echo $key.": ".$value."/";
+//		}
+//		echo "<br>";
+//		echo "<br>";
 	};
 
 	function placeOthello($l, $t){
-		global $pdo, $st;
 		$changed = false;
+		global $eightLine;
+		getEightLine($l);
 		if($t==1 || $t==2){
-			getEightLine($l);
-			global $eightLine;
 			for ($i=0; $i < 8; $i++) {
 				if(count($eightLine[$i]) > 2 && $eightLine[$i][0] == 0 && $t != $eightLine[$i][1] && $eightLine[$i][1] != 0){
 					if ($t == $eightLine[$i][2] && $eightLine[$i][2] != 0) {
@@ -120,7 +178,7 @@
 				}
 			}
 		}
-		unset($eightLine);
+		unset($GLOBALS['eightLine']);
 		return $changed;
 	};
 
@@ -162,10 +220,11 @@
 	};
 
 	function checkNext($t){
-		global $eightLine;
 		$next = false;
 		for ($j=1; $j <= 64; $j++) { 
+			global $eightLine;
 			getEightLine($j);
+			// echo $j;
 			for ($i=0; $i < 8; $i++) {
 				if(count($eightLine[$i]) > 2 && $eightLine[$i][0] == 0 && $t != $eightLine[$i][1] && $eightLine[$i][1] != 0){
 					if ($t == $eightLine[$i][2] && $eightLine[$i][2] != 0) {
@@ -193,8 +252,9 @@
 					}
 				}
 			}
+		// print_r($eightLine);
+		unset($GLOBALS['eightLine']);
 		}
-		unset($eightLine);
 		if ($next == true && $t == 1) {
 			return 1;
 		}elseif ($next == true && $t == 2) {
@@ -205,6 +265,16 @@
 			return 1;
 		}
 	};
+
+//	$board .= "<table><tr>";
+//	for ($i = 1; $i <= 64; $i++) {
+//		$board .= "<td>".$othello[$i]['disc']."</td>";
+//		if ($i%8 == 0) {
+//			$board .= "</tr>";
+//		};
+//	};
+//	echo "next is ".(checkNext(2));
+//	echo $board;
 
 	$st = $pdo->query("SELECT * FROM othello");
 	$othello = array();

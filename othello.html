@@ -4,11 +4,12 @@
 <title>othello.html</title>
 </head>
 <body>
-	<div id="board"></div>
+	<div id="loading"></div>
+	<div id="board"><img src='gif-load.gif'/></div>
 	<div id="turn_message"></div>
 	<div id="result"></div>
 	<div id="game"></div>
-	<div id="reset">Reset</div>
+	<div><span id="reset"></span></div>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	<script type="text/javascript">
 		$(function(){
@@ -49,6 +50,7 @@
 						$('#result').html("");
 						$('#game').html("");
 					};
+     $('#reset').text("Reset");
 					$("td[id], #reset").css('cursor', 'pointer');
 				}
 			});
@@ -57,6 +59,7 @@
 				var clickedId = $(this).attr('id');
 				var clickedDisc = $(this).html();
 				var turnCharacter = $("#turn").html();
+    $("#"+clickedId).html("<img src='gif-load.gif' width='10' height='10'>");
 				$.ajax({
 					type: "POST",
 					url: "othello_json.php",
@@ -64,6 +67,7 @@
 					success: function(json){
 						var one = 0;
 						var two = 0;
+						var eight = "";
 						othello += "<table><tr>";
 						for (var i = 1; i <= 64; i++) {
 							othello += "<td id='" + json[i].id + "'>" + json[i].disc + "</td>";
@@ -94,12 +98,15 @@
 							$('#result').html("");
 							$('#game').html("");
 						};
+	     $('#reset').text("Reset");
 						$("td[id], #reset").css('cursor', 'pointer');
 					}
 				});
 			});
 			$(document).on("click", "#reset", function(){
 				var othello = "";
+    $("#board, #turn_message, #result, #game, #reset").empty();
+    $('#board').html("<img src='gif-load.gif'/>");
 				$.ajax({
 					type: "POST",
 					url: "othello_json.php",
@@ -113,9 +120,10 @@
 							};
 						};
 						$('#board').html(othello);
-							$('#turn_message').html("<span id='turn'>"+json[1].turn+"</span>の番です。");
-							$('#result').html("");
-							$('#game').html("");
+						$('#turn_message').html("<span id='turn'>"+json[1].turn+"</span>の番です。");
+      $('#reset').text("Reset");
+						$('#result').html("");
+						$('#game').html("");
 						$("td[id], #reset").css('cursor', 'pointer');
 					}
 				});

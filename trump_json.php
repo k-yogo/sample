@@ -18,11 +18,11 @@
 	// htmlから受け取ったmemberの値がerrorだった場合不正のメッセージのみを、$cards[0]に格納し返す。
 	if (!empty($_POST['member']) && $_POST['member'] == "error") {
 		$cards[0] = "入力値が無いか、値が不正です。";
-	// htmlから受け取ったmemberの値が53未満だった場合、受け取った人数分に分けた配列を返す関数serveを、引数を受け取った人数に設定して、実行し、$cardsに結果を格納する。
-	}elseif (!empty($_POST['member']) && $_POST['member'] < 53) {
+	// htmlから受け取ったmemberの値が52未満だった場合、受け取った人数分に分けた配列を返す関数serveを、引数を受け取った人数に設定して、実行し、$cardsに結果を格納する。
+	}elseif (!empty($_POST['member']) && $_POST['member'] < 52) {
 		$member = $_POST['member'];
 		serve($member);
-	// htmlから受け取ったmemberの値が53以上だった場合、空の要素を$cards[0]に格納し、返す。
+	// htmlから受け取ったmemberの値が52以上だった場合、空の要素を$cards[0]に格納し、返す。
 	}else{
 		$cards[0] = "";
 	}
