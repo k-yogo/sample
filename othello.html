@@ -20,9 +20,17 @@
 				success: function(json){
 					var one = 0;
 					var two = 0;
-					othello += "<table><tr>";
+					othello += "<table border=1 bgcolor='#063'><tr>";
 					for (var i = 1; i <= 64; i++) {
-						othello += "<td id='" + json[i].id + "'>" + json[i].disc + "</td>";
+						othello += "<td width='25' height='25' align='center' valign='middle' id='" + json[i].id + "'>";
+						if (json[i].disc == 2) {
+							othello += "<img src='irozeyokuro.gif' width='15'>";
+						}else if (json[i].disc == 1) {
+							othello += "<img src='irozeyosiro.gif' width='15'>";
+						}else{
+							othello += "<img src='clear.gif' width='15'>";
+						};
+						othello += "</td>";
 						if (i%8 == 0) {
 							othello += "</tr>";
 						};
@@ -37,16 +45,22 @@
 							};
 						}
 						$('#turn_message').html("終わりです。");
-						$('#result').html("1×"+one+"個 2×"+two+"個");
+						$('#result').html("白×"+one+"個 黒×"+two+"個");
 						if (one > two) {
-							$('#game').html("1の勝ちです。");
+							$('#game').html("白の勝ちです。");
 						}else if (two > one) {
-							$('#game').html("2の勝ちです。");
+							$('#game').html("黒の勝ちです。");
 						}else if (one == two) {
 							$('#game').html("引き分けです。");
 						};
 					}else{
-						$('#turn_message').html("<span id='turn'>"+json[1].turn+"</span>の番です。");
+						var turnColor ="";
+						if (json[1].turn == 1) {
+							turnColor = "白";
+						}else if (json[1].turn == 2) {
+							turnColor = "黒";
+						};
+						$('#turn_message').html("<span id='turn' name='"+json[1].turn+"'>"+turnColor+"</span>の番です。");
 						$('#result').html("");
 						$('#game').html("");
 					};
@@ -58,19 +72,27 @@
 				var othello = "";
 				var clickedId = $(this).attr('id');
 				var clickedDisc = $(this).html();
-				var turnCharacter = $("#turn").html();
-    $("#"+clickedId).html("<img src='gif-load.gif' width='10' height='10'>");
+				var turnCharacter = $("#turn").attr('name');
+    $("#"+clickedId).html("<img src='loading.gif' width='12' height='12'>");
 				$.ajax({
 					type: "POST",
 					url: "othello_json.php",
-					data: {id: clickedId, disc: clickedDisc, turn: turnCharacter},
+					data: {id: clickedId, turn: turnCharacter},
 					success: function(json){
 						var one = 0;
 						var two = 0;
 						var eight = "";
-						othello += "<table><tr>";
+						othello += "<table border=1 bgcolor='#063'><tr>";
 						for (var i = 1; i <= 64; i++) {
-							othello += "<td id='" + json[i].id + "'>" + json[i].disc + "</td>";
+							othello += "<td width='25' height='25' align='center' valign='middle' id='" + json[i].id + "'>";
+							if (json[i].disc == 2) {
+								othello += "<img src='irozeyokuro.gif' width='15' alt='2'>";
+							}else if (json[i].disc == 1) {
+								othello += "<img src='irozeyosiro.gif' width='15' alt='1'>";
+							}else{
+								othello += "<img src='clear.gif' width='15'>";
+							};
+							othello += "</td>";
 							if (i%8 == 0) {
 								othello += "</tr>";
 							};
@@ -85,18 +107,24 @@
 								};
 							}
 							$('#turn_message').html("終わりです。");
-							$('#result').html("1×"+one+"個 2×"+two+"個");
+							$('#result').html("白×"+one+"個 黒×"+two+"個");
 							if (one > two) {
-								$('#game').html("1の勝ちです。");
+								$('#game').html("白の勝ちです。");
 							}else if (two > one) {
-								$('#game').html("2の勝ちです。");
+								$('#game').html("黒の勝ちです。");
 							}else if (one == two) {
 								$('#game').html("引き分けです。");
 							};
 						}else{
-						$('#turn_message').html("<span id='turn'>"+json[1].turn+"</span>の番です。");
-							$('#result').html("");
-							$('#game').html("");
+							var turnColor ="";
+							if (json[1].turn == 1) {
+								turnColor = "白";
+							}else if (json[1].turn == 2) {
+								turnColor = "黒";
+							};
+							$('#turn_message').html("<span id='turn' name='"+json[1].turn+"'>"+turnColor+"</span>の番です。");
+								$('#result').html("");
+								$('#game').html("");
 						};
 	     $('#reset').text("Reset");
 						$("td[id], #reset").css('cursor', 'pointer');
@@ -112,15 +140,29 @@
 					url: "othello_json.php",
 					data: {reset: true},
 					success: function(json){
-						othello += "<table><tr>";
+					othello += "<table border=1 bgcolor='#063'><tr>";
 						for (var i = 1; i <= 64; i++) {
-							othello += "<td id='" + json[i].id + "'>" + json[i].disc + "</td>";
+							othello += "<td width='25' height='25' align='center' valign='middle' id='" + json[i].id + "'>";
+							if (json[i].disc == 2) {
+								othello += "<img src='irozeyokuro.gif' width='15'>";
+							}else if (json[i].disc == 1) {
+								othello += "<img src='irozeyosiro.gif' width='15'>";
+							}else{
+								othello += "<img src='clear.gif' width='15'>";
+							};
+							othello += "</td>";
 							if (i%8 == 0) {
 								othello += "</tr>";
 							};
 						};
 						$('#board').html(othello);
-						$('#turn_message').html("<span id='turn'>"+json[1].turn+"</span>の番です。");
+						var turnColor ="";
+						if (json[1].turn == 1) {
+							turnColor = "白";
+						}else if (json[1].turn == 2) {
+							turnColor = "黒";
+						};
+						$('#turn_message').html("<span id='turn' name='"+json[1].turn+"'>"+turnColor+"</span>の番です。");
       $('#reset').text("Reset");
 						$('#result').html("");
 						$('#game').html("");
