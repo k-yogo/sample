@@ -46,60 +46,58 @@
 	};
 
 	function getEightLine($l){
-		global $othello, $eightLine;
 		// 上方向のチェック
 		for ($i = $l, $n = 0; $i >= 1; $i -= 8, $n++) {
-			$GLOBALS['eightLine'][0][$n] = $othello[$i]['disc'];
+			$GLOBALS['eightLine'][0][$n] = $GLOBALS['othello'][$i]['disc'];
 		}
 		// 右上方向のチェック
 		for ($i = $l, $n = 0; $i >= 1; $i -= 7, $n++) {
 			if (($i - 1) % 8 == 0 && $i != $l) {
 				break;
 			}else{
-				$GLOBALS['eightLine'][1][$n] = $othello[$i]['disc'];
+				$GLOBALS['eightLine'][1][$n] = $GLOBALS['othello'][$i]['disc'];
 			}
 		}
 		// 右方向のチェック
 		for ($i = $l, $n = 0;$n <= 7 - (($l -1) % 8); $i++, $n++) {
-			$GLOBALS['eightLine'][2][$n] = $othello[$i]['disc'];
+			$GLOBALS['eightLine'][2][$n] = $GLOBALS['othello'][$i]['disc'];
 		}
 		// 右下方向のチェック
 		for ($i = $l, $n = 0; $i <= 64; $i += 9, $n++) {
 			if (($i - 1) % 8 == 0 && $i != $l) {
 				break;
 			}else{
-				$GLOBALS['eightLine'][3][$n] = $othello[$i]['disc'];
+				$GLOBALS['eightLine'][3][$n] = $GLOBALS['othello'][$i]['disc'];
 			}
 		}
 		// 下方向のチェック
 		for ($i = $l, $n = 0; $i <= 64; $i += 8, $n++) {
-			$GLOBALS['eightLine'][4][$n] = $othello[$i]['disc'];
+			$GLOBALS['eightLine'][4][$n] = $GLOBALS['othello'][$i]['disc'];
 		}
 		// 左下方向のチェック
 		for ($i = $l, $n = 0; $i <= 64; $i += 7, $n++) {
 			if ($i % 8 == 0 && $i != $l) {
 				break;
 			}else{
-				$GLOBALS['eightLine'][5][$n] = $othello[$i]['disc'];
+				$GLOBALS['eightLine'][5][$n] = $GLOBALS['othello'][$i]['disc'];
 			}
 		}
 		// 左方向のチェック
 		for ($i = $l, $n = 0; $n <= (($l - 1) % 8); $i--, $n++) {
-			$GLOBALS['eightLine'][6][$n] = $othello[$i]['disc'];
+			$GLOBALS['eightLine'][6][$n] = $GLOBALS['othello'][$i]['disc'];
 		}
 		// 左上方向のチェック
 		for ($i = $l, $n = 0; $i >= 1; $i -= 9, $n++) {
 			if ($i % 8 == 0 && $i != $l) {
 				break;
 			}else{
-				$GLOBALS['eightLine'][7][$n] = $othello[$i]['disc'];	
+				$GLOBALS['eightLine'][7][$n] = $GLOBALS['othello'][$i]['disc'];	
 			}
 		}
 	};
 
 	function placeOthello($l, $t){
 		$changed = false;
-		global $eightLine;
 		getEightLine($l);
 		if($t==1 || $t==2){
 			for ($i=0; $i < 8; $i++) {
@@ -180,7 +178,6 @@
 	function checkNext($t){
 		$next = false;
 		for ($j=1; $j <= 64; $j++) { 
-			global $eightLine;
 			getEightLine($j);
 			for ($i=0; $i < 8; $i++) {
 				if(count($GLOBALS['eightLine'][$i]) > 2 && $GLOBALS['eightLine'][$i][0] == 0 && $t != $GLOBALS['eightLine'][$i][1] && $GLOBALS['eightLine'][$i][1] != 0 && $GLOBALS['eightLine'][$i][2] != 0){
