@@ -113,11 +113,11 @@
 							if ($t == $GLOBALS['eightLine'][$i][4]) {
 								changeOthello($l, $t, $i, 4);
 								$changed = true;
-						}elseif (count($GLOBALS['eightLine'][$i]) > 5 && $GLOBALS['eightLine'][$i][5] != 0) {
-								if ($t == $GLOBALS['eightLine'][$i][5]) {
-									changeOthello($l, $t, $i, 5);
-									$changed = true;
-							}elseif (count($GLOBALS['eightLine'][$i]) > 6 && $GLOBALS['eightLine'][$i][6] != 0) {
+							}elseif (count($GLOBALS['eightLine'][$i]) > 5 && $GLOBALS['eightLine'][$i][5] != 0) {
+									if ($t == $GLOBALS['eightLine'][$i][5]) {
+										changeOthello($l, $t, $i, 5);
+										$changed = true;
+								}elseif (count($GLOBALS['eightLine'][$i]) > 6 && $GLOBALS['eightLine'][$i][6] != 0) {
 									if ($t == $GLOBALS['eightLine'][$i][6]) {
 										changeOthello($l, $t, $i, 6);
 										$changed = true;
